@@ -21,30 +21,15 @@ public class TransformClassFile implements ClassFileTransformer {
 			byte[] classfileBuffer) throws IllegalClassFormatException {
 		byte[] byteCode = classfileBuffer;
 
-		if (className.equals("cs6367/test/Lion")) {
-			System.out.println("Instrumenting......");
-			try {
-				ClassPool classPool = ClassPool.getDefault();
-				CtClass ctClass = classPool.makeClass(new ByteArrayInputStream(
-						classfileBuffer));
-				CtMethod[] methods = ctClass.getDeclaredMethods();
-				for (CtMethod method : methods) {
-					method.addLocalVariable("startTime", CtClass.longType);
-					method.insertBefore("startTime = System.nanoTime();");
-					method.insertAfter("System.out.println(\"Execution Duration "
-							+ "(nano sec): \"+ (System.nanoTime() - startTime) );");
-				}
-				byteCode = ctClass.toBytecode();
-				ctClass.detach();
-				System.out.println("Instrumentation complete.");
-			} catch (Throwable ex) {
-				System.out.println("Exception: " + ex);
-				ex.printStackTrace();
-			}
-		}
+		// OUR CODE MUST GO IN HERE.
+		// IT MUST TRANSFORM byteCode DEPENDING ON
+		// HOW WE WANT TO GATHER COVERAGE INFORMATION.
+		// USE ASM TO DO THIS, NOT JAVASSIST
+
 		return byteCode;
 	}
 
+	// // this is the professor's original code
 	// public static void main(final String args[]) throws Exception {
 	// 	FileInputStream is = new FileInputStream(args[0]);
 
