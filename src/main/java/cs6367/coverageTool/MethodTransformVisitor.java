@@ -30,29 +30,29 @@ class MethodTransformVisitor extends MethodVisitor implements Opcodes {
     @Override
     public void visitLineNumber(int line, Label start) {
         lineNumber = line;
+
         mv.visitTypeInsn(NEW, "java/io/FileWriter");
         mv.visitInsn(DUP);
         mv.visitLdcInsn(outputFilepath);
         mv.visitInsn(ICONST_1);
         mv.visitMethodInsn(INVOKESPECIAL, "java/io/FileWriter", "<init>", "(Ljava/lang/String;Z)V", false);
-        mv.visitVarInsn(ASTORE, 1);
+        mv.visitVarInsn(ASTORE, 100);
         mv.visitTypeInsn(NEW, "java/io/BufferedWriter");
         mv.visitInsn(DUP);
-        mv.visitVarInsn(ALOAD, 1);
+        mv.visitVarInsn(ALOAD, 100);
         mv.visitMethodInsn(INVOKESPECIAL, "java/io/BufferedWriter", "<init>", "(Ljava/io/Writer;)V", false);
-        mv.visitVarInsn(ASTORE, 2);
+        mv.visitVarInsn(ASTORE, 101);
         mv.visitTypeInsn(NEW, "java/io/PrintWriter");
         mv.visitInsn(DUP);
-        mv.visitVarInsn(ALOAD, 2);
+        mv.visitVarInsn(ALOAD, 101);
         mv.visitMethodInsn(INVOKESPECIAL, "java/io/PrintWriter", "<init>", "(Ljava/io/Writer;)V", false);
-        mv.visitVarInsn(ASTORE, 3);
-        mv.visitVarInsn(ALOAD, 3);
+        mv.visitVarInsn(ASTORE, 102);
+        mv.visitVarInsn(ALOAD, 102);
         mv.visitLdcInsn(className + ":" + lineNumber + "\n");
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintWriter", "append", "(Ljava/lang/CharSequence;)Ljava/io/PrintWriter;", false);
         mv.visitInsn(POP);
-        mv.visitVarInsn(ALOAD, 3);
+        mv.visitVarInsn(ALOAD, 102);
         mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintWriter", "close", "()V", false);
-
         super.visitLineNumber(line, start);
     }
 
