@@ -10,8 +10,10 @@ import org.objectweb.asm.ClassWriter;
 
 public class TransformClassFile implements ClassFileTransformer {
   String outputFilepath;
-  public TransformClassFile (String outputFilepath) {
+  String classPrefix;
+  public TransformClassFile (String outputFilepath, String classPrefix) {
     this.outputFilepath = outputFilepath;
+    this.classPrefix = classPrefix;
   }
 
   public byte[] transform(ClassLoader loader, String className,
@@ -19,7 +21,7 @@ public class TransformClassFile implements ClassFileTransformer {
       byte[] classfileBuffer) throws IllegalClassFormatException {
     byte[] byteCode = classfileBuffer;
 
-    if ("TestInstrumentation".equals(className)) {
+    if (className.startsWith(classPrefix)) {
         ClassReader reader = new ClassReader(byteCode);
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         ClassTransformVisitor visitor = new ClassTransformVisitor(writer, outputFilepath);
