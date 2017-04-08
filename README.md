@@ -1,5 +1,5 @@
 # JavaCoverage
-A small test coverage tool for Java tests
+A very basic and very faulty coverage tool for Java tests, made for class and **not** meant for production.
 
 # How to use
 In your Maven project's `pom.xml` file, make sure the following tags exist.
